@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
 import { Header } from "react-native-elements";
+import { Colors } from "../utils/colors";
 import AddressPicker from "./AddressPicker";
 
 export default function AppHeader() {
@@ -8,7 +8,7 @@ export default function AppHeader() {
     <Header
       placement="left"
       leftComponent={<AddressPicker />}
-      backgroundColor="#3e32a8"
+      backgroundColor={Colors.DarkPrimary}
     />
   );
 }

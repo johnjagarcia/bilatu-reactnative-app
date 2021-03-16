@@ -5,6 +5,7 @@ import Header from "./Header";
 import HomeScreen from "../screens/Home";
 import SearchScreen from "../screens/Search";
 import { Icon } from "react-native-elements";
+import { Colors } from "../utils/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,10 +16,10 @@ const AppNavigator = () => {
       <Tab.Navigator
         initialRouteName="Home"
         tabBarOptions={{
-          activeTintColor: "#fffb0a",
-          inactiveTintColor: "#fff",
+          activeTintColor: Colors.Accent,
+          inactiveTintColor: Colors.Background,
           style: {
-            backgroundColor: "#3e32a8",
+            backgroundColor: Colors.DarkPrimary,
           },
           labelStyle: { fontSize: 12 },
         }}
@@ -42,7 +43,7 @@ const AppNavigator = () => {
               <Icon
                 name={iconName}
                 type="feather"
-                color={focused ? "#fffb0a" : "#fff"}
+                color={focused ? Colors.Accent : Colors.Background}
                 size={32}
               />
             );
