@@ -1,6 +1,6 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import CategoriesList from "../components/CategoriesList";
+import CategoriesGrid from "../components/CategoriesGrid";
 import { Colors } from "../utils/colors";
 
 const Tab = createMaterialTopTabNavigator();
@@ -16,11 +16,11 @@ export default function SearchScreen() {
     >
       <Tab.Screen
         name="Productos"
-        children={() => <CategoriesList type="PRODUCT" />}
+        children={() => <CategoriesGrid type="PRODUCT" />}
       />
       <Tab.Screen
         name="Servicios"
-        children={() => <CategoriesList type="SERVICE" />}
+        children={() => <CategoriesGrid type="SERVICE" />}
       />
     </Tab.Navigator>
   );

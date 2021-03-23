@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Categories from "../components/Categories";
+import Promotions from "../components/Promotions";
 import Searcher from "../components/Searcher";
 import { Colors } from "../utils/colors";
 
@@ -15,7 +16,10 @@ export default function HomeScreen() {
       }}
     >
       <Searcher />
-      <Categories />
+      <Categories title="Productos" type="PRODUCT" />
+      <Categories title="Servicios" type="SERVICE" />
+
+      <Promotions />
     </View>
   );
 }

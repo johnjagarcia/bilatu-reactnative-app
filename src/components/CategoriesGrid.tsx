@@ -1,10 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import React from "react";
+import React, { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { Colors } from "../utils/colors";
 
-export default function Categories(props: { type: string; title: string }) {
-  const CATEGORIES_QUERY = gql`
+export default function CategoriesGrid(props: { type: string }) {
+  const { data, loading, error } = useQuery(gql`
   query {
     getCategories(type: "${props.type}") {
       _id
@@ -18,25 +18,19 @@ export default function Categories(props: { type: string; title: string }) {
       updatedAt
     }
   }
-`;
-
-  const { data, loading, error } = useQuery(CATEGORIES_QUERY);
+`);
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error :( {JSON.stringify(error)}</Text>;
 
   return (
-    <View style={{ marginTop: 25 }}>
-      <Text
-        style={{ fontSize: 32, color: Colors.InfoText, fontWeight: "bold" }}
-      >
-        {props.title}
-      </Text>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ marginRight: -20, marginTop: 10 }}
+    <ScrollView>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          flexWrap: "wrap",
+        }}
       >
         {data.getCategories.map((c: any, index: number) => {
           const base64Icon = c.image
@@ -47,16 +41,18 @@ export default function Categories(props: { type: string; title: string }) {
             <View
               key={index}
               style={{
-                flexDirection: "column",
-                alignItems: "center",
-                marginRight: 20,
+                width: "30%",
+                height: 100,
+                alignItems: "flex-start",
+                marginVertical: 25,
+                marginHorizontal: 5,
               }}
             >
               <View
                 style={{
                   backgroundColor: Colors.DarkAccent,
                   borderRadius: 15,
-                  padding: 5,
+                  alignSelf: "center",
                 }}
               >
                 <Image
@@ -65,16 +61,21 @@ export default function Categories(props: { type: string; title: string }) {
                       ? { uri: base64Icon }
                       : require("../images/favicon.png")
                   }
-                  style={{ width: 100, borderRadius: 10, height: 100 }}
+                  style={{ width: 110, borderRadius: 10, height: 110 }}
                 />
               </View>
 
-              <View style={{ paddingHorizontal: 5, paddingVertical: 5 }}>
+              <View
+                style={{
+                  paddingHorizontal: 5,
+                  paddingVertical: 5,
+                  alignSelf: "center",
+                }}
+              >
                 <Text
                   style={{
                     fontSize: 11,
                     color: Colors.Text,
-                    width: 100,
                     textAlign: "center",
                   }}
                 >
@@ -84,7 +85,7 @@ export default function Categories(props: { type: string; title: string }) {
             </View>
           );
         })}
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }

@@ -1,36 +1,42 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { Colors } from "../utils/colors";
 
-export default function CategoriesList(props: { type: string }) {
-  const { data, loading, error } = useQuery(gql`
-  query {
-    getCategories(type: "${props.type}") {
-      _id
-      name
-      image {
-        data
-        type
+export default function Promotions() {
+  const CATEGORIES_QUERY = gql`
+    query {
+      getCategories(type: "PRODUCT") {
+        _id
+        name
+        image {
+          data
+          type
+        }
+        active
+        createdAt
+        updatedAt
       }
-      active
-      createdAt
-      updatedAt
     }
-  }
-`);
+  `;
+
+  const { data, loading, error } = useQuery(CATEGORIES_QUERY);
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error :( {JSON.stringify(error)}</Text>;
 
   return (
     <View style={{ marginTop: 25 }}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
+      <Text
+        style={{ fontSize: 26, color: Colors.InfoText, fontWeight: "bold" }}
+      >
+        Promos cerca de ti
+      </Text>
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={{ marginRight: -20, marginTop: 10 }}
       >
         {data.getCategories.map((c: any, index: number) => {
           const base64Icon = c.image
@@ -41,11 +47,9 @@ export default function CategoriesList(props: { type: string }) {
             <View
               key={index}
               style={{
-                flexGrow: 1,
-                width: "20%",
-                height: 100,
+                flexDirection: "column",
                 alignItems: "center",
-                margin: 5,
+                marginRight: 20,
               }}
             >
               <View
@@ -58,17 +62,19 @@ export default function CategoriesList(props: { type: string }) {
                   source={
                     base64Icon
                       ? { uri: base64Icon }
-                      : require("../images/none.png")
+                      : require("../images/favicon.png")
                   }
-                  style={{ width: 80, borderRadius: 10, height: 80 }}
+                  style={{ width: 70, borderRadius: 10, height: 70 }}
                 />
               </View>
 
               <View style={{ paddingHorizontal: 5, paddingVertical: 5 }}>
                 <Text
                   style={{
-                    fontSize: 11,
+                    fontSize: 10,
                     color: Colors.Text,
+                    width: 70,
+                    textAlign: "center",
                   }}
                 >
                   {c.name}
@@ -77,7 +83,7 @@ export default function CategoriesList(props: { type: string }) {
             </View>
           );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 }
