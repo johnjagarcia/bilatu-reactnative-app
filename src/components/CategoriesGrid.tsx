@@ -1,12 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
 import { Colors } from "../utils/colors";
 
-export default function CategoriesGrid(props: { type: string }) {
+export default function CategoriesGrid({ type, navigation }) {
   const { data, loading, error } = useQuery(gql`
   query {
-    getCategories(type: "${props.type}") {
+    getCategories(type: "${type}") {
       _id
       name
       image {
@@ -30,6 +31,8 @@ export default function CategoriesGrid(props: { type: string }) {
           flex: 1,
           flexDirection: "row",
           flexWrap: "wrap",
+          marginTop: 10,
+          marginHorizontal: 10,
         }}
       >
         {data.getCategories.map((c: any, index: number) => {
@@ -38,51 +41,60 @@ export default function CategoriesGrid(props: { type: string }) {
             : null;
 
           return (
-            <View
+            <TouchableHighlight
               key={index}
-              style={{
-                width: "30%",
-                height: 100,
-                alignItems: "flex-start",
-                marginVertical: 25,
-                marginHorizontal: 5,
-              }}
+              onPress={() =>
+                navigation.navigate("Subcategories", {
+                  categoryId: c._id,
+                })
+              }
+              underlayColor="white"
             >
               <View
                 style={{
-                  backgroundColor: Colors.DarkAccent,
-                  borderRadius: 15,
-                  alignSelf: "center",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginHorizontal: 15,
+                  marginVertical: 10,
                 }}
               >
-                <Image
-                  source={
-                    base64Icon
-                      ? { uri: base64Icon }
-                      : require("../images/favicon.png")
-                  }
-                  style={{ width: 110, borderRadius: 10, height: 110 }}
-                />
-              </View>
-
-              <View
-                style={{
-                  paddingHorizontal: 5,
-                  paddingVertical: 5,
-                  alignSelf: "center",
-                }}
-              >
-                <Text
+                <View
                   style={{
-                    fontSize: 11,
-                    color: Colors.Text,
-                    textAlign: "center",
+                    backgroundColor: Colors.DarkAccent,
+                    borderRadius: 15,
+                    alignSelf: "center",
                   }}
                 >
-                  {c.name}
-                </Text>
+                  <Image
+                    source={
+                      base64Icon
+                        ? { uri: base64Icon }
+                        : require("../images/generic.png")
+                    }
+                    style={{ width: 100, borderRadius: 10, height: 100 }}
+                  />
+                </View>
+
+                <View
+                  style={{
+                    paddingHorizontal: 5,
+                    paddingVertical: 5,
+                    alignSelf: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      color: Colors.Text,
+                      textAlign: "center",
+                      maxWidth: 100,
+                    }}
+                  >
+                    {c.name}
+                  </Text>
+                </View>
               </View>
-            </View>
+            </TouchableHighlight>
           );
         })}
       </View>

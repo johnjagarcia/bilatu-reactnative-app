@@ -1,12 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
 import { Colors } from "../utils/colors";
 
-export default function Categories(props: { type: string; title: string }) {
+export default function Categories({ type, title, navigation }) {
   const CATEGORIES_QUERY = gql`
   query {
-    getCategories(type: "${props.type}") {
+    getCategories(type: "${type}") {
       _id
       name
       image {
@@ -28,9 +29,14 @@ export default function Categories(props: { type: string; title: string }) {
   return (
     <View style={{ marginTop: 25 }}>
       <Text
-        style={{ fontSize: 32, color: Colors.InfoText, fontWeight: "bold" }}
+        style={{
+          fontSize: 32,
+          color: Colors.InfoText,
+          fontWeight: "bold",
+          marginLeft: 15,
+        }}
       >
-        {props.title}
+        {title}
       </Text>
 
       <ScrollView
@@ -44,44 +50,52 @@ export default function Categories(props: { type: string; title: string }) {
             : null;
 
           return (
-            <View
+            <TouchableHighlight
               key={index}
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                marginRight: 20,
-              }}
+              onPress={() =>
+                navigation.navigate("Subcategories", {
+                  categoryId: c._id,
+                })
+              }
+              underlayColor="white"
             >
               <View
                 style={{
-                  backgroundColor: Colors.DarkAccent,
-                  borderRadius: 15,
-                  padding: 5,
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginHorizontal: 10,
                 }}
               >
-                <Image
-                  source={
-                    base64Icon
-                      ? { uri: base64Icon }
-                      : require("../images/favicon.png")
-                  }
-                  style={{ width: 100, borderRadius: 10, height: 100 }}
-                />
-              </View>
-
-              <View style={{ paddingHorizontal: 5, paddingVertical: 5 }}>
-                <Text
+                <View
                   style={{
-                    fontSize: 11,
-                    color: Colors.Text,
-                    width: 100,
-                    textAlign: "center",
+                    backgroundColor: Colors.DarkAccent,
+                    borderRadius: 15,
                   }}
                 >
-                  {c.name}
-                </Text>
+                  <Image
+                    source={
+                      base64Icon
+                        ? { uri: base64Icon }
+                        : require("../images/generic.png")
+                    }
+                    style={{ width: 100, borderRadius: 10, height: 100 }}
+                  />
+                </View>
+
+                <View style={{ paddingHorizontal: 5, paddingVertical: 5 }}>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: Colors.Text,
+                      width: 100,
+                      textAlign: "center",
+                    }}
+                  >
+                    {c.name}
+                  </Text>
+                </View>
               </View>
-            </View>
+            </TouchableHighlight>
           );
         })}
       </ScrollView>

@@ -28,7 +28,12 @@ export default function Promotions() {
   return (
     <View style={{ marginTop: 25 }}>
       <Text
-        style={{ fontSize: 26, color: Colors.InfoText, fontWeight: "bold" }}
+        style={{
+          fontSize: 26,
+          color: Colors.InfoText,
+          fontWeight: "bold",
+          marginLeft: 15,
+        }}
       >
         Promos cerca de ti
       </Text>

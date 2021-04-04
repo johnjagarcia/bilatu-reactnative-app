@@ -1,7 +1,8 @@
 import "react-native-gesture-handler";
 import React from "react";
-import AppNavigator from "./src/components/Navigator";
+import Home from "./src/screens/Home";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import Navigator from "./src/screens/Navigator";
 
 const client = new ApolloClient({
   uri: "http://localhost:3001/graphql",
@@ -11,7 +12,7 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <AppNavigator />
+      <Navigator />
     </ApolloProvider>
   );
 }
