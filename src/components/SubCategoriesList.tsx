@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
+import { List } from "react-content-loader/native";
 import { FlatList, StyleSheet, Text, View, StatusBar } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -21,7 +22,16 @@ const SubCategoriesList = ({ route, navigation }) => {
 
   const { data, loading, error } = useQuery(SUBCATEGORIES_QUERY);
 
-  if (loading) return <Text>Cargando...</Text>;
+  const MyListLoader = () => (
+    <List
+      width={400}
+      height={400}
+      viewBox="0 0 100 100"
+      style={{ width: "100%" }}
+    />
+  );
+
+  if (loading) return <MyListLoader />;
 
   const FlatListItemSeparator = () => {
     return (
@@ -38,10 +48,7 @@ const SubCategoriesList = ({ route, navigation }) => {
   const Item = ({ title, subcategoryId }) => (
     <TouchableHighlight
       onPress={() =>
-        navigation.navigate("Near", {
-          subcategoryId,
-          criteria: "",
-        })
+        navigation.navigate("Near", { subcategoryId, criteria: "" })
       }
       underlayColor="white"
     >

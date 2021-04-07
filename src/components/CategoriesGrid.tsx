@@ -1,10 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { Colors } from "../utils/colors";
+import ListLoader from "./ListLoader";
 
 export default function CategoriesGrid({ type, navigation }) {
+  const width = Dimensions.get("window").width / 4 - 20;
+
   const { data, loading, error } = useQuery(gql`
   query {
     getCategories(type: "${type}") {
@@ -21,7 +24,7 @@ export default function CategoriesGrid({ type, navigation }) {
   }
 `);
 
-  if (loading) return <Text>Loading...</Text>;
+  if (loading) return <ListLoader />;
   if (error) return <Text>Error :( {JSON.stringify(error)}</Text>;
 
   return (
@@ -32,7 +35,6 @@ export default function CategoriesGrid({ type, navigation }) {
           flexDirection: "row",
           flexWrap: "wrap",
           marginTop: 10,
-          marginHorizontal: 10,
         }}
       >
         {data.getCategories.map((c: any, index: number) => {
@@ -50,14 +52,7 @@ export default function CategoriesGrid({ type, navigation }) {
               }
               underlayColor="white"
             >
-              <View
-                style={{
-                  flexDirection: "column",
-                  alignItems: "center",
-                  marginHorizontal: 15,
-                  marginVertical: 10,
-                }}
-              >
+              <View style={{ margin: 10 }}>
                 <View
                   style={{
                     backgroundColor: Colors.DarkAccent,
@@ -71,7 +66,7 @@ export default function CategoriesGrid({ type, navigation }) {
                         ? { uri: base64Icon }
                         : require("../images/generic.png")
                     }
-                    style={{ width: 100, borderRadius: 10, height: 100 }}
+                    style={{ width, borderRadius: 10, height: width }}
                   />
                 </View>
 
@@ -85,9 +80,9 @@ export default function CategoriesGrid({ type, navigation }) {
                   <Text
                     style={{
                       fontSize: 10,
-                      color: Colors.Text,
+                      color: Colors.InfoText,
                       textAlign: "center",
-                      maxWidth: 100,
+                      maxWidth: width - 10,
                     }}
                   >
                     {c.name}

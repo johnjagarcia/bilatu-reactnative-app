@@ -1,104 +1,82 @@
-import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { Colors } from "../utils/colors";
 
-export default function Categories({ type, title, navigation }) {
-  const CATEGORIES_QUERY = gql`
-  query {
-    getCategories(type: "${type}") {
-      _id
-      name
-      image {
-        data
-        type
-      }
-      active
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-  const { data, loading, error } = useQuery(CATEGORIES_QUERY);
-
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error :( {JSON.stringify(error)}</Text>;
+export default function Categories({ data, navigation }) {
+  const width = Dimensions.get("window").width / 3 - 20;
 
   return (
-    <View style={{ marginTop: 25 }}>
-      <Text
+    <ScrollView>
+      <View
         style={{
-          fontSize: 32,
-          color: Colors.InfoText,
-          fontWeight: "bold",
-          marginLeft: 15,
+          flex: 1,
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          marginTop: 10,
         }}
       >
-        {title}
-      </Text>
+        {data ? (
+          data.getCategories.map((c: any, index: number) => {
+            const base64Icon = c.image
+              ? `data:${c.image.type};base64,${c.image.data}`
+              : null;
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ marginRight: -20, marginTop: 10 }}
-      >
-        {data.getCategories.map((c: any, index: number) => {
-          const base64Icon = c.image
-            ? `data:${c.image.type};base64,${c.image.data}`
-            : null;
-
-          return (
-            <TouchableHighlight
-              key={index}
-              onPress={() =>
-                navigation.navigate("Subcategories", {
-                  categoryId: c._id,
-                })
-              }
-              underlayColor="white"
-            >
-              <View
-                style={{
-                  flexDirection: "column",
-                  alignItems: "center",
-                  marginHorizontal: 10,
-                }}
+            return (
+              <TouchableHighlight
+                key={index}
+                onPress={() =>
+                  navigation.navigate("Subcategories", {
+                    categoryId: c._id,
+                  })
+                }
+                underlayColor="white"
               >
-                <View
-                  style={{
-                    backgroundColor: Colors.DarkAccent,
-                    borderRadius: 15,
-                  }}
-                >
-                  <Image
-                    source={
-                      base64Icon
-                        ? { uri: base64Icon }
-                        : require("../images/generic.png")
-                    }
-                    style={{ width: 100, borderRadius: 10, height: 100 }}
-                  />
-                </View>
-
-                <View style={{ paddingHorizontal: 5, paddingVertical: 5 }}>
-                  <Text
+                <View>
+                  <View
                     style={{
-                      fontSize: 11,
-                      color: Colors.Text,
-                      width: 100,
-                      textAlign: "center",
+                      backgroundColor: Colors.DarkAccent,
+                      borderRadius: 15,
+                      alignSelf: "center",
                     }}
                   >
-                    {c.name}
-                  </Text>
+                    <Image
+                      source={
+                        base64Icon
+                          ? { uri: base64Icon }
+                          : require("../images/generic.png")
+                      }
+                      style={{ width, borderRadius: 10, height: width }}
+                    />
+                  </View>
+
+                  <View
+                    style={{
+                      paddingHorizontal: 5,
+                      paddingVertical: 5,
+                      alignSelf: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: Colors.InfoText,
+                        textAlign: "center",
+                        maxWidth: width,
+                      }}
+                    >
+                      {c.name}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableHighlight>
-          );
-        })}
-      </ScrollView>
-    </View>
+              </TouchableHighlight>
+            );
+          })
+        ) : (
+          <Text>No hay nada para mostrar</Text>
+        )}
+      </View>
+    </ScrollView>
   );
 }

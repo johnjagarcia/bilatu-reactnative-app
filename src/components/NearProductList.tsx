@@ -3,9 +3,11 @@ import React from "react";
 import { FlatList, Text, View, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Colors } from "../utils/colors";
+import { List } from "react-content-loader";
 
-const Item = ({ business }) => (
+const Item = ({ business, key }) => (
   <View
+    key={key}
     style={{
       marginVertical: 5,
       paddingVertical: 20,
@@ -35,7 +37,7 @@ const Item = ({ business }) => (
           style={{
             fontSize: 16,
             fontWeight: "bold",
-            color: Colors.Text,
+            color: Colors.InfoText,
           }}
         >
           {business.name}
@@ -46,7 +48,7 @@ const Item = ({ business }) => (
             <Text
               style={{
                 fontSize: 12,
-                color: Colors.Text,
+                color: Colors.InfoText,
               }}
             >
               {/* {business.categoryName} */}
@@ -99,7 +101,7 @@ const Item = ({ business }) => (
             <Text
               style={{
                 fontSize: 11,
-                color: Colors.Text,
+                color: Colors.InfoText,
                 width: 100,
                 textAlign: "center",
               }}
@@ -130,7 +132,9 @@ const NearProductList = ({ route }) => {
 
   const { data, loading, error } = useQuery(NEAR_PRODUCTS_QUERY);
 
-  if (loading) return <Text>Cargando...</Text>;
+  const MyListLoader = () => <List />;
+
+  if (loading) return <MyListLoader />;
 
   return (
     <FlatList

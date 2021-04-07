@@ -1,7 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Header from "../components/Header";
 import MainScreen from "./Main";
 import SearchScreen from "./Search";
 import { Icon } from "react-native-elements";
@@ -10,7 +9,7 @@ import { View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-const Home = ({ route, navigation }) => {
+const Home = () => {
   return (
     <View
       style={{
@@ -18,7 +17,6 @@ const Home = ({ route, navigation }) => {
         height: "100%",
       }}
     >
-      <Header />
       <Tab.Navigator
         initialRouteName="Main"
         tabBarOptions={{
@@ -28,6 +26,7 @@ const Home = ({ route, navigation }) => {
             backgroundColor: Colors.DarkPrimary,
           },
           labelStyle: { fontSize: 12 },
+          keyboardHidesTabBar: true,
         }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
