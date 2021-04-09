@@ -1,15 +1,21 @@
 import React from "react";
-
-import {
-  getFocusedRouteNameFromRoute,
-  NavigationContainer,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Home";
 import SubCategoriesScreen from "./Subcategories";
-import NearProductList from "../components/NearProductList";
+import SearchResultsList from "../components/search-results/SearchResultsList";
+import CategoriesScreen from "./Categories";
+import BusinessCategoriesGroupScreen from "./BusinessCategories";
 
-const Stack = createStackNavigator();
+type RootStackParamList = {
+  Home: undefined;
+  Categories: undefined;
+  Subcategories: undefined;
+  BusinessCategories: undefined;
+  SearchResults: { title: "Resultados"; subcategoryId: null; criteria: "" };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function Navigator() {
   return (
@@ -22,13 +28,25 @@ export default function Navigator() {
         />
         <Stack.Screen
           options={{ headerTitle: "Categorías" }}
+          name="Categories"
+          component={CategoriesScreen}
+        />
+        <Stack.Screen
+          options={{ headerTitle: "Sub-categorías" }}
           name="Subcategories"
           component={SubCategoriesScreen}
         />
         <Stack.Screen
-          options={{ headerTitle: "Cerca de mi" }}
-          name="Near"
-          component={NearProductList}
+          options={{ headerTitle: "Negocios por categoría" }}
+          name="BusinessCategories"
+          component={BusinessCategoriesGroupScreen}
+        />
+        <Stack.Screen
+          options={({ route }) => ({
+            title: route.params.title,
+          })}
+          name="SearchResults"
+          component={SearchResultsList}
         />
       </Stack.Navigator>
     </NavigationContainer>

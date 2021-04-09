@@ -8,7 +8,7 @@ import ListLoader from "./ListLoader";
 export default function CategoriesGrid({ type, navigation }) {
   const width = Dimensions.get("window").width / 4 - 20;
 
-  const { data, loading, error } = useQuery(gql`
+  const { data, loading } = useQuery(gql`
   query {
     getCategories(type: "${type}") {
       _id
@@ -25,7 +25,6 @@ export default function CategoriesGrid({ type, navigation }) {
 `);
 
   if (loading) return <ListLoader />;
-  if (error) return <Text>Error :( {JSON.stringify(error)}</Text>;
 
   return (
     <ScrollView>
@@ -34,7 +33,6 @@ export default function CategoriesGrid({ type, navigation }) {
           flex: 1,
           flexDirection: "row",
           flexWrap: "wrap",
-          marginTop: 10,
         }}
       >
         {data.getCategories.map((c: any, index: number) => {

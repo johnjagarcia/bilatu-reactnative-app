@@ -1,12 +1,14 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { Button, RefreshControl, Text, View } from "react-native";
+import { RefreshControl, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Categories from "../components/Categories";
+import MainCategories from "../components/MainCategories";
 import AppHeader from "../components/Header";
 import ListLoader from "../components/ListLoader";
 import Searcher from "../components/Searcher";
 import { Colors } from "../utils/colors";
+import { Button } from "react-native-elements";
+import BusinessCategories from "../components/BusinessCategories";
 
 export default function MainScreen({ navigation }) {
   const CATEGORIES_QUERY = gql`
@@ -59,39 +61,11 @@ export default function MainScreen({ navigation }) {
         <View style={{ padding: 10 }}>
           <Searcher navigation={navigation} />
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 25,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 24,
-                color: Colors.InfoText,
-                fontWeight: "bold",
-              }}
-            >
-              Productos
-            </Text>
+          <MainCategories data={data} navigation={navigation} />
 
-            <Button
-              onPress={() => {
-                navigation.navigate("Search", {
-                  screen: "Productos",
-                });
-              }}
-              title="Ver todos"
-              color={Colors.InfoText}
-              accessibilityLabel="Ver todas las categorías de productos"
-            />
-          </View>
-
-          <Categories data={data} navigation={navigation} />
           {/* <Categories title="Servicios" type="SERVICE" navigation={navigation} /> */}
 
-          {/* <Promotions /> */}
+          <BusinessCategories navigation={navigation} />
         </View>
       </ScrollView>
     </View>

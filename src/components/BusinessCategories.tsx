@@ -1,18 +1,15 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import { Colors } from "../utils/colors";
 
-export default function Promotions() {
+export default function BusinessCategories({ navigation }) {
   const CATEGORIES_QUERY = gql`
     query {
-      getCategories(type: "PRODUCT") {
+      getBusinessCategories {
         _id
         name
-        image {
-          data
-          type
-        }
         active
         createdAt
         updatedAt
@@ -27,23 +24,40 @@ export default function Promotions() {
 
   return (
     <View style={{ marginTop: 25 }}>
-      <Text
+      <View
         style={{
-          fontSize: 26,
-          color: Colors.InfoText,
-          fontWeight: "bold",
-          marginLeft: 15,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 25,
         }}
       >
-        Promos cerca de ti
-      </Text>
+        <Text
+          style={{
+            fontSize: 24,
+            color: Colors.InfoText,
+            fontWeight: "bold",
+          }}
+        >
+          Productos
+        </Text>
+
+        <Button
+          onPress={() => {
+            navigation.navigate("BusinessCategories");
+          }}
+          title="Ver más"
+          type="clear"
+          titleStyle={{ color: Colors.DarkPrimary }}
+          accessibilityLabel="Ver todas las categorías de productos"
+        />
+      </View>
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ marginRight: -20, marginTop: 10 }}
       >
-        {data.getCategories.map((c: any, index: number) => {
+        {data.getBusinessCategories.map((c: any, index: number) => {
           const base64Icon = c.image
             ? `data:${c.image.type};base64,${c.image.data}`
             : null;
@@ -54,13 +68,14 @@ export default function Promotions() {
               style={{
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: 20,
+                marginRight: 15,
               }}
             >
               <View
                 style={{
-                  backgroundColor: Colors.DarkAccent,
+                  backgroundColor: Colors.DarkPrimary,
                   borderRadius: 15,
+                  padding: 5,
                 }}
               >
                 <Image
@@ -69,16 +84,20 @@ export default function Promotions() {
                       ? { uri: base64Icon }
                       : require("../images/favicon.png")
                   }
-                  style={{ width: 70, borderRadius: 10, height: 70 }}
+                  style={{
+                    width: 90,
+                    borderRadius: 10,
+                    height: 90,
+                  }}
                 />
               </View>
 
-              <View style={{ paddingHorizontal: 5, paddingVertical: 5 }}>
+              <View style={{ paddingVertical: 5 }}>
                 <Text
                   style={{
                     fontSize: 10,
                     color: Colors.InfoText,
-                    width: 70,
+                    width: 90,
                     textAlign: "center",
                   }}
                 >

@@ -1,11 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import { FlatList, Text, View, Image } from "react-native";
+import { Image, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Colors } from "../utils/colors";
-import { List } from "react-content-loader";
+import { Colors } from "../../utils/colors";
 
-const Item = ({ business, key }) => (
+const SearchResultItem = ({ business, key }) => (
   <View
     key={key}
     style={{
@@ -21,7 +19,7 @@ const Item = ({ business, key }) => (
         }}
       >
         <Image
-          source={require("../images/business.png")}
+          source={require("../../images/business.png")}
           style={{ width: 50, borderRadius: 50, height: 50, padding: 25 }}
         />
       </View>
@@ -92,7 +90,7 @@ const Item = ({ business, key }) => (
             }}
           >
             <Image
-              source={require("../images/generic.png")}
+              source={require("../../images/generic.png")}
               style={{ width: 80, borderRadius: 10, height: 80 }}
             />
           </View>
@@ -115,36 +113,4 @@ const Item = ({ business, key }) => (
   </View>
 );
 
-const NearProductList = ({ route }) => {
-  const { subcategoryId, criteria } = route.params;
-
-  const NEAR_PRODUCTS_QUERY = gql`
-    query {
-      getProducts(subcategoryid: "${subcategoryId}", criteria: "${criteria}") {
-        name
-        data {
-          _id
-          title
-        }
-      }
-    }
-  `;
-
-  const { data, loading, error } = useQuery(NEAR_PRODUCTS_QUERY);
-
-  const MyListLoader = () => <List />;
-
-  if (loading) return <MyListLoader />;
-
-  return (
-    <FlatList
-      data={data.getProducts}
-      renderItem={({ item }) => {
-        return <Item key={item._id} business={item} />;
-      }}
-      keyExtractor={(item) => item._id}
-    />
-  );
-};
-
-export default NearProductList;
+export default SearchResultItem;

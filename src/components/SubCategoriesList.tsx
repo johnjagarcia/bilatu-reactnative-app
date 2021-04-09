@@ -48,7 +48,11 @@ const SubCategoriesList = ({ route, navigation }) => {
   const Item = ({ title, subcategoryId }) => (
     <TouchableHighlight
       onPress={() =>
-        navigation.navigate("Near", { subcategoryId, criteria: "" })
+        navigation.navigate("SearchResults", {
+          title,
+          subcategoryId,
+          criteria: "",
+        })
       }
       underlayColor="white"
     >

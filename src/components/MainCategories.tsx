@@ -1,13 +1,41 @@
 import React from "react";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { Colors } from "../utils/colors";
 
-export default function Categories({ data, navigation }) {
+export default function MainCategories({ data, navigation }) {
   const width = Dimensions.get("window").width / 3 - 20;
 
   return (
     <ScrollView>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 25,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 24,
+            color: Colors.InfoText,
+            fontWeight: "bold",
+          }}
+        >
+          Productos
+        </Text>
+
+        <Button
+          onPress={() => {
+            navigation.navigate("Categories");
+          }}
+          title="Ver más"
+          type="clear"
+          titleStyle={{ color: Colors.DarkPrimary }}
+          accessibilityLabel="Ver todas las categorías de productos"
+        />
+      </View>
       <View
         style={{
           flex: 1,
