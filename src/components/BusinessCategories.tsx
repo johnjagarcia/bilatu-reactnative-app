@@ -38,7 +38,7 @@ export default function BusinessCategories({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          Productos
+          Negocios
         </Text>
 
         <Button
@@ -48,7 +48,7 @@ export default function BusinessCategories({ navigation }) {
           title="Ver más"
           type="clear"
           titleStyle={{ color: Colors.DarkPrimary }}
-          accessibilityLabel="Ver todas las categorías de productos"
+          accessibilityLabel="Ver negocios por categoría"
         />
       </View>
 

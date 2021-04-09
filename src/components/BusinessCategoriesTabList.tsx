@@ -13,6 +13,10 @@ export default function BusinessCategoriesTabList({ navigation }) {
         name
         businessCategories {
           name
+          image {
+            type
+            data
+          }
         }
         active
         createdAt
@@ -125,9 +129,13 @@ export default function BusinessCategoriesTabList({ navigation }) {
                     width: 25,
                     height: 25,
                   }}
-                  source={{
-                    uri: "https://reactnative.dev/img/tiny_logo.png",
-                  }}
+                  source={
+                    item.image
+                      ? {
+                          uri: `data:${item.image.type};base64,${item.image.data}`,
+                        }
+                      : require("../images/generic.png")
+                  }
                 />
                 <Text
                   style={{

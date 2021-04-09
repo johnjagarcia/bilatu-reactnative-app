@@ -9,7 +9,7 @@ export default function BusinessCategoriesGroupScreen({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{ headerTitle: "Inicio", headerShown: false }}
+        options={{ headerShown: false }}
         name="BusinessCategories"
         children={() => <BusinessCategoriesTabList navigation={navigation} />}
       />

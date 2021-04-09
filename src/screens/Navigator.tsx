@@ -22,7 +22,7 @@ export default function Navigator() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          options={{ headerTitle: "Inicio", headerShown: false }}
+          options={{ headerTitle: "", headerShown: false }}
           name="Home"
           component={Home}
         />
@@ -37,7 +37,7 @@ export default function Navigator() {
           component={SubCategoriesScreen}
         />
         <Stack.Screen
-          options={{ headerTitle: "Negocios por categoría" }}
+          options={{ headerTitle: "Categorías de negocios" }}
           name="BusinessCategories"
           component={BusinessCategoriesGroupScreen}
         />

@@ -8,7 +8,7 @@ export default function CategoriesScreen({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{ headerTitle: "Inicio", headerShown: false }}
+        options={{ headerShown: false }}
         name="Home"
         children={() => (
           <CategoriesGrid type="PRODUCT" navigation={navigation} />
