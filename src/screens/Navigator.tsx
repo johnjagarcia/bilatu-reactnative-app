@@ -6,6 +6,7 @@ import SubCategoriesScreen from "./Subcategories";
 import SearchResultsList from "../components/search-results/SearchResultsList";
 import CategoriesScreen from "./Categories";
 import BusinessCategoriesGroupScreen from "./BusinessCategories";
+import ProductDetail from "../components/ProductDetail";
 
 type RootStackParamList = {
   Home: undefined;
@@ -13,6 +14,7 @@ type RootStackParamList = {
   Subcategories: undefined;
   BusinessCategories: undefined;
   SearchResults: { title: "Resultados"; subcategoryId: null; criteria: "" };
+  ProductDetail: { product: {}; headquarter: {} };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -44,9 +46,18 @@ export default function Navigator() {
         <Stack.Screen
           options={({ route }) => ({
             title: route.params.title,
+            headerBackTitleVisible: false,
           })}
           name="SearchResults"
           component={SearchResultsList}
+        />
+        <Stack.Screen
+          options={{
+            headerTitle: "Detalle del producto",
+            headerBackTitleVisible: false,
+          }}
+          name="ProductDetail"
+          component={ProductDetail}
         />
       </Stack.Navigator>
     </NavigationContainer>

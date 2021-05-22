@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CategoriesGrid from "../components/CategoriesGrid";
 import { Colors } from "../utils/colors";
-import { Keyboard, Platform, Text, TextInput, View } from "react-native";
-import { Icon, SearchBar } from "react-native-elements";
+import { Keyboard, Text, TextInput, View } from "react-native";
+import { SearchBar } from "react-native-elements";
 import { useFocusEffect } from "@react-navigation/core";
 
 export default function SearchScreen({ route, navigation }) {
-  const [searchInputRef, setSearchInputRef] = useState<SearchBar>();
+  const searchInputRef = useRef<TextInput>();
   const [showCategories, setShowCategories] = useState(true);
   const [searchText, setSearchText] = useState("");
 
@@ -31,7 +31,7 @@ export default function SearchScreen({ route, navigation }) {
   }, []);
   useFocusEffect(
     React.useCallback(() => {
-      if (searchInputRef != null) searchInputRef.focus();
+      if (searchInputRef != null) searchInputRef.current?.focus();
       return () => {
         Keyboard.dismiss();
       };
@@ -46,43 +46,8 @@ export default function SearchScreen({ route, navigation }) {
         paddingTop: 50,
       }}
     >
-      {/* <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: "#fff",
-          borderRadius: 40,
-          marginTop: 50,
-          alignItems: "center",
-          paddingHorizontal: 20,
-          paddingVertical: 10,
-        }}
-      >
-        <Icon name="search" type="feather" color={Colors.InfoText} />
-        <TextInput
-          ref={(ref) => ref && setSearchInputRef(ref)}
-          placeholder="¿Que quieres búscar?"
-          onChangeText={(text) => setSearchText(text)}
-          defaultValue={searchText}
-          style={{
-            paddingHorizontal: 20,
-            fontSize: 15,
-            color: Colors.InfoText,
-          }}
-          returnKeyType="search"
-          onFocus={() => setShowCategories(false)}
-          onBlur={() => setShowCategories(true)}
-          onSubmitEditing={() => {
-            if (searchText.length < 3) return;
-            navigation.navigate("SearchResults", {
-              title: searchText,
-              subcategoryId: null,
-              criteria: searchText,
-            });
-          }}
-        />
-      </View> */}
       <SearchBar
-        ref={(ref) => ref && setSearchInputRef(ref)}
+        ref={searchInputRef}
         containerStyle={{ backgroundColor: "transparent" }}
         cancelButtonTitle="Cancelar"
         cancelButtonProps={{ color: Colors.DarkPrimary }}

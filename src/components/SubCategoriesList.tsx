@@ -51,7 +51,7 @@ const SubCategoriesList = ({ route, navigation }) => {
         navigation.navigate("SearchResults", {
           title,
           subcategoryId,
-          criteria: "",
+          criteria: null,
         })
       }
       underlayColor="white"

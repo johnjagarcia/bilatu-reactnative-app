@@ -7,7 +7,6 @@ import AppHeader from "../components/Header";
 import ListLoader from "../components/ListLoader";
 import Searcher from "../components/Searcher";
 import { Colors } from "../utils/colors";
-import { Button } from "react-native-elements";
 import BusinessCategories from "../components/BusinessCategories";
 
 export default function MainScreen({ navigation }) {
@@ -20,6 +19,13 @@ export default function MainScreen({ navigation }) {
           data
           type
         }
+        active
+        createdAt
+        updatedAt
+      }
+      getBusinessCategories {
+        _id
+        name
         active
         createdAt
         updatedAt
@@ -65,7 +71,7 @@ export default function MainScreen({ navigation }) {
 
           {/* <Categories title="Servicios" type="SERVICE" navigation={navigation} /> */}
 
-          <BusinessCategories navigation={navigation} />
+          <BusinessCategories data={data} navigation={navigation} />
         </View>
       </ScrollView>
     </View>

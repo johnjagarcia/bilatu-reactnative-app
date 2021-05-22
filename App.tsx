@@ -8,6 +8,7 @@ const client = new ApolloClient({
   uri: "http://localhost:3001/graphql",
   //uri: "https://bilatu-express-app.herokuapp.com/graphql",
   cache: new InMemoryCache(),
+  defaultOptions: { watchQuery: { fetchPolicy: "cache-first" } },
 });
 
 export default function App() {
