@@ -63,7 +63,12 @@ const SearchResultItem = ({ headquarter, navigation }) => (
     >
       {headquarter.products.map(
         (
-          product: { title: string; description: string; price: number },
+          product: {
+            _id: string;
+            title: string;
+            description: string;
+            price: number;
+          },
           index: number
         ) => (
           <TouchableHighlight

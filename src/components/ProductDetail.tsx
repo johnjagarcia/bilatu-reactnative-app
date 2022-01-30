@@ -1,30 +1,60 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { useCallback, useRef, useState } from "react";
 import { Text, TextInput, View } from "react-native";
-import { Icon } from "react-native-elements";
-import { Button } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 import InputSpinner from "react-native-input-spinner";
 import Animated from "react-native-reanimated";
+import { RootStateOrAny, useSelector } from "react-redux";
 import { Colors } from "../utils/colors";
 
-export default function ProductDetail({ route }) {
+export default function ProductDetail({ route, navigation: { goBack } }) {
   const { product, headquarter } = route.params;
 
   const [amount, setAmount] = useState(1);
   const [showMoreButton, setShowMoreButton] = useState(false);
   const [textShown, setTextShown] = useState(false);
+  const [addingItem, setAddingItem] = useState(false);
 
   const MAX_HEIGHT = 350;
   const scrollA = useRef(new Animated.Value(0)).current;
 
   const onTextLayout = useCallback(
     (e) => {
-      console.log("e.nativeEvent.lines :>> ", e.nativeEvent.lines.length >= 2);
       if (e.nativeEvent.lines.length >= 2 && !textShown) {
         setShowMoreButton(true);
       }
     },
     [textShown]
   );
+
+  const UPDATE_CART = gql`
+    mutation UpdateCart(
+      $quantity: Float!
+      $productId: String!
+      $customerId: String!
+    ) {
+      updateCart(
+        quantity: $quantity
+        product_id: $productId
+        customer_id: $customerId
+      )
+    }
+  `;
+
+  const [updateCart] = useMutation(UPDATE_CART);
+
+  const customerId = useSelector(
+    (store: RootStateOrAny) => store.auth.customerId
+  );
+
+  const addItemToCart = async () => {
+    setAddingItem(true);
+    await updateCart({
+      variables: { quantity: +amount, productId: product._id, customerId },
+    });
+    setAddingItem(false);
+    goBack();
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -187,19 +217,39 @@ export default function ProductDetail({ route }) {
           min={1}
           step={1}
           skin="clean"
-          colorMax={"#f04048"}
+          colorMax={Colors.Error}
           color={Colors.DarkPrimary}
           value={amount}
           onChange={(num: number) => setAmount(num)}
         />
         <Button
           title="Agregar"
-          titleStyle={{ color: Colors.InfoText }}
+          onPress={() => addItemToCart()}
+          loading={addingItem}
+          titleStyle={{ color: Colors.White }}
+          buttonStyle={{
+            backgroundColor: Colors.DarkPrimary,
+            borderRadius: 40,
+            minHeight: 50,
+            width: "100%",
+          }}
+        />
+      </View>
+      <View
+        style={{
+          backgroundColor: Colors.White,
+          paddingHorizontal: 24,
+          paddingBottom: 24,
+        }}
+      >
+        <Button
+          title="Confirmar compra"
+          titleStyle={{ color: Colors.White }}
           buttonStyle={{
             backgroundColor: Colors.DarkAccent,
             borderRadius: 40,
             minHeight: 50,
-            width: 120,
+            width: "100%",
           }}
         />
       </View>

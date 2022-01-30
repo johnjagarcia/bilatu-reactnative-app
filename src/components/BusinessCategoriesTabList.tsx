@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Image, Text, View } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
 import SectionList from "react-native-tabs-section-list";
 import ListLoader from "./ListLoader";
 

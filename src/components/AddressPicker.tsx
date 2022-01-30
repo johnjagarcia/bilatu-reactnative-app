@@ -11,7 +11,7 @@ export default function AddressPicker() {
     "Transversal 35D sur #29-85",
   ]);
   return (
-    <View style={{ flexDirection: "row", marginTop: 40, alignItems: "center" }}>
+    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
       <Icon name="map-pin" type="feather" color="#fff" size={32} />
       <Text style={{ color: "#fff", marginLeft: 8, fontSize: 16 }}>
         {selectedAddress}

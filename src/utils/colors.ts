@@ -5,4 +5,5 @@ export enum Colors {
   InfoText = "#1C1C1C",
   DarkAccent = "#FF940C",
   White = "#FFF",
+  Error = "#f04048",
 }

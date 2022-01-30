@@ -9,7 +9,7 @@ import { View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-const Home = () => {
+const HomeScreen = () => {
   return (
     <View
       style={{
@@ -70,4 +70,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeScreen;

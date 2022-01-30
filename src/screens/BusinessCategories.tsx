@@ -1,7 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import BusinessCategoriesTabList from "../components/BusinessCategoriesTabList";
-import CategoriesGrid from "../components/CategoriesGrid";
 
 const Stack = createStackNavigator();
 

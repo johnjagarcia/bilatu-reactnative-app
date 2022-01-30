@@ -46,7 +46,7 @@ export default function MainScreen({ navigation }) {
         height: "100%",
       }}
     >
-      <AppHeader />
+      <AppHeader navigation={navigation} />
       <ScrollView
         contentContainerStyle={{
           width: "100%",
